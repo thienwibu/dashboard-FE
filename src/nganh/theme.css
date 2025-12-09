@@ -1,0 +1,337 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap&subset=vietnamese');
+
+:root {
+  --nganh-font-family: 'PT Sans', 'Segoe UI', Tahoma, Geneva, sans-serif;
+  --nganh-bg: #f0f2f5;
+  --nganh-surface: #ffffff;
+  --nganh-border: #d5dae3;
+  --nganh-border-strong: #c3c8d4;
+  --nganh-text-strong: #1e2340;
+  --nganh-text-base: #353a55;
+  --nganh-text-muted: #59607b;
+  --nganh-text-soft: #7c849f;
+  --nganh-gray-50: #f0f2f5;
+  --nganh-gray-100: #e4e7ef;
+  --nganh-gray-200: #d8dde8;
+  --nganh-gray-300: #c7cddd;
+  --nganh-gray-400: #a4adc5;
+  --nganh-gray-500: #8891b0;
+  --nganh-gray-600: #6f7694;
+  --nganh-gray-700: #555b78;
+  --nganh-gray-800: #393f5c;
+  --nganh-gray-900: #1f2340;
+  --nganh-primary-50: #e8eaf6;
+  --nganh-primary-100: #c5cae9;
+  --nganh-primary-200: #9fa8da;
+  --nganh-primary-400: #5c6bc0;
+  --nganh-primary-500: #3f51b5;
+  --nganh-primary-600: #3949a4;
+  --nganh-primary-700: #303f9f;
+  --nganh-primary-800: #283593;
+  --nganh-primary-900: #1a237e;
+  --nganh-accent-50: #fff3e0;
+  --nganh-accent-100: #ffe0b2;
+  --nganh-accent-500: #ff9800;
+  --nganh-accent-600: #fb8c00;
+  --nganh-accent-700: #f57c00;
+  --nganh-dark-bg: #121526;
+  --nganh-dark-surface: #1b1f34;
+  --nganh-dark-border: #2b3250;
+  --nganh-dark-text: #f0f2ff;
+  --nganh-dark-muted: #b4b8d6;
+}
+
+.nganh-theme {
+  font-family: var(--nganh-font-family);
+  background-color: var(--nganh-bg);
+  color: var(--nganh-text-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.nganh-theme h1,
+.nganh-theme h2,
+.nganh-theme h3,
+.nganh-theme h4,
+.nganh-theme h5,
+.nganh-theme h6 {
+  font-family: var(--nganh-font-family);
+  font-weight: 700;
+  color: var(--nganh-text-strong);
+}
+
+.nganh-theme button,
+.nganh-theme input,
+.nganh-theme select,
+.nganh-theme textarea {
+  font-family: var(--nganh-font-family);
+}
+
+/* Neutral palette overrides */
+.nganh-theme .bg-gray-50 {
+  background-color: var(--nganh-gray-50) !important;
+}
+
+.nganh-theme .bg-gray-100 {
+  background-color: var(--nganh-gray-100) !important;
+}
+
+.nganh-theme .bg-gray-200 {
+  background-color: var(--nganh-gray-200) !important;
+}
+
+.nganh-theme .bg-gray-300 {
+  background-color: var(--nganh-gray-300) !important;
+}
+
+.nganh-theme .bg-gray-400 {
+  background-color: var(--nganh-gray-400) !important;
+}
+
+.nganh-theme .bg-gray-500 {
+  background-color: var(--nganh-gray-500) !important;
+}
+
+.nganh-theme .bg-gray-600 {
+  background-color: var(--nganh-gray-600) !important;
+}
+
+.nganh-theme .bg-gray-700 {
+  background-color: var(--nganh-gray-700) !important;
+}
+
+.nganh-theme .bg-gray-800 {
+  background-color: var(--nganh-gray-800) !important;
+}
+
+.nganh-theme .bg-gray-900 {
+  background-color: var(--nganh-gray-900) !important;
+}
+
+.nganh-theme .text-gray-100 {
+  color: var(--nganh-gray-100) !important;
+}
+
+.nganh-theme .text-gray-200 {
+  color: var(--nganh-gray-200) !important;
+}
+
+.nganh-theme .text-gray-300 {
+  color: var(--nganh-gray-300) !important;
+}
+
+.nganh-theme .text-gray-400 {
+  color: var(--nganh-text-soft) !important;
+}
+
+.nganh-theme .text-gray-500 {
+  color: var(--nganh-text-muted) !important;
+}
+
+.nganh-theme .text-gray-600 {
+  color: var(--nganh-text-base) !important;
+}
+
+.nganh-theme .text-gray-700,
+.nganh-theme .text-gray-800,
+.nganh-theme .text-gray-900 {
+  color: var(--nganh-text-strong) !important;
+}
+
+.nganh-theme .border-gray-100 {
+  border-color: var(--nganh-gray-100) !important;
+}
+
+.nganh-theme .border-gray-200 {
+  border-color: var(--nganh-border) !important;
+}
+
+.nganh-theme .border-gray-300 {
+  border-color: var(--nganh-border-strong) !important;
+}
+
+.nganh-theme .border-gray-400 {
+  border-color: var(--nganh-gray-400) !important;
+}
+
+.nganh-theme .border-gray-600,
+.nganh-theme .border-gray-700 {
+  border-color: var(--nganh-gray-700) !important;
+}
+
+.nganh-theme .border-gray-800 {
+  border-color: var(--nganh-gray-800) !important;
+}
+
+/* Primary / blue palette */
+.nganh-theme .bg-blue-50,
+.nganh-theme .bg-indigo-50,
+.nganh-theme .bg-primary-50 {
+  background-color: var(--nganh-primary-50) !important;
+}
+
+.nganh-theme .bg-blue-100,
+.nganh-theme .bg-indigo-100,
+.nganh-theme .bg-primary-100 {
+  background-color: var(--nganh-primary-100) !important;
+}
+
+.nganh-theme .bg-blue-500,
+.nganh-theme .bg-indigo-500,
+.nganh-theme .bg-primary-500 {
+  background-color: var(--nganh-primary-500) !important;
+}
+
+.nganh-theme .bg-blue-600,
+.nganh-theme .bg-indigo-600,
+.nganh-theme .bg-primary-600 {
+  background-color: var(--nganh-primary-600) !important;
+}
+
+.nganh-theme .bg-blue-700,
+.nganh-theme .bg-indigo-700,
+.nganh-theme .bg-primary-700 {
+  background-color: var(--nganh-primary-700) !important;
+}
+
+.nganh-theme .bg-blue-900,
+.nganh-theme .bg-indigo-900,
+.nganh-theme .bg-primary-900 {
+  background-color: var(--nganh-primary-900) !important;
+}
+
+.nganh-theme .text-blue-100,
+.nganh-theme .text-indigo-100 {
+  color: var(--nganh-primary-100) !important;
+}
+
+.nganh-theme .text-blue-200 {
+  color: var(--nganh-primary-200) !important;
+}
+
+.nganh-theme .text-blue-300 {
+  color: var(--nganh-primary-200) !important;
+}
+
+.nganh-theme .text-blue-400,
+.nganh-theme .text-indigo-300 {
+  color: var(--nganh-primary-400) !important;
+}
+
+.nganh-theme .text-blue-500,
+.nganh-theme .text-blue-600,
+.nganh-theme .text-blue-700,
+.nganh-theme .text-blue-800,
+.nganh-theme .text-blue-900,
+.nganh-theme .text-indigo-500,
+.nganh-theme .text-indigo-600,
+.nganh-theme .text-indigo-700,
+.nganh-theme .text-primary-600,
+.nganh-theme .text-primary-700,
+.nganh-theme .text-primary-800,
+.nganh-theme .text-primary-900 {
+  color: var(--nganh-primary-600) !important;
+}
+
+.nganh-theme .border-blue-100,
+.nganh-theme .border-indigo-100,
+.nganh-theme .border-primary-200 {
+  border-color: var(--nganh-primary-100) !important;
+}
+
+.nganh-theme .border-blue-200,
+.nganh-theme .border-blue-300,
+.nganh-theme .border-indigo-500,
+.nganh-theme .border-indigo-600,
+.nganh-theme .border-primary-500 {
+  border-color: var(--nganh-primary-600) !important;
+}
+
+.nganh-theme .border-blue-500,
+.nganh-theme .border-blue-600 {
+  border-color: var(--nganh-primary-700) !important;
+}
+
+/* Accent palette */
+.nganh-theme .bg-orange-50,
+.nganh-theme .bg-amber-50,
+.nganh-theme .bg-warning-50 {
+  background-color: var(--nganh-accent-50) !important;
+}
+
+.nganh-theme .bg-orange-500,
+.nganh-theme .bg-warning-500,
+.nganh-theme .bg-warning-600,
+.nganh-theme .bg-amber-500 {
+  background-color: var(--nganh-accent-500) !important;
+}
+
+.nganh-theme .bg-amber-100,
+.nganh-theme .bg-warning-100 {
+  background-color: var(--nganh-accent-100) !important;
+}
+
+.nganh-theme .text-warning-500,
+.nganh-theme .text-warning-600,
+.nganh-theme .text-orange-600,
+.nganh-theme .text-amber-600 {
+  color: var(--nganh-accent-600) !important;
+}
+
+.nganh-theme .border-orange-100,
+.nganh-theme .border-amber-200,
+.nganh-theme .border-warning-500 {
+  border-color: var(--nganh-accent-500) !important;
+}
+
+.nganh-theme .text-amber-700,
+.nganh-theme .text-warning-700,
+.nganh-theme .text-warning-800 {
+  color: var(--nganh-accent-700) !important;
+}
+
+/* Surface helpers */
+.nganh-theme .bg-white {
+  background-color: var(--nganh-surface) !important;
+}
+
+.nganh-theme .shadow-card {
+  box-shadow: 0 20px 45px rgba(63, 81, 181, 0.08);
+}
+
+.nganh-theme .badge-accent {
+  background-color: rgba(255, 152, 0, 0.1);
+  color: var(--nganh-accent-600);
+}
+
+/* Dark mode assists */
+.nganh-theme.dark {
+  background-color: var(--nganh-dark-bg);
+  color: var(--nganh-dark-text);
+}
+
+.nganh-theme.dark .bg-gray-900,
+.nganh-theme.dark .bg-gray-800 {
+  background-color: var(--nganh-dark-bg) !important;
+}
+
+.nganh-theme.dark .bg-gray-700,
+.nganh-theme.dark .bg-gray-600 {
+  background-color: var(--nganh-dark-surface) !important;
+}
+
+.nganh-theme.dark .text-gray-100,
+.nganh-theme.dark .text-gray-200,
+.nganh-theme.dark .text-gray-300 {
+  color: var(--nganh-dark-text) !important;
+}
+
+.nganh-theme.dark .text-gray-400,
+.nganh-theme.dark .text-gray-500 {
+  color: var(--nganh-dark-muted) !important;
+}
+
+.nganh-theme.dark .border-gray-700,
+.nganh-theme.dark .border-gray-600 {
+  border-color: var(--nganh-dark-border) !important;
+}

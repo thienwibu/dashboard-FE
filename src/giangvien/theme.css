@@ -1,0 +1,227 @@
+/* Giảng Viên Dashboard Theme */
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap');
+
+:root {
+  /* Primary Colors */
+  --gv-primary: #3F51B5;
+  --gv-primary-dark: #303F9F;
+  --gv-primary-light: #7986CB;
+  
+  /* Background Colors */
+  --gv-bg-main: #F0F2F5;
+  --gv-bg-white: #FFFFFF;
+  --gv-bg-card: #FFFFFF;
+  
+  /* Accent Colors */
+  --gv-accent: #FF9800;
+  --gv-accent-dark: #F57C00;
+  --gv-accent-light: #FFB74D;
+  
+  /* Text Colors */
+  --gv-text-primary: #212121;
+  --gv-text-secondary: #757575;
+  --gv-text-disabled: #BDBDBD;
+  --gv-text-white: #FFFFFF;
+  
+  /* Status Colors */
+  --gv-success: #4CAF50;
+  --gv-warning: #FF9800;
+  --gv-error: #F44336;
+  --gv-info: #2196F3;
+  
+  /* Border & Shadow */
+  --gv-border: #E0E0E0;
+  --gv-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --gv-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
+  
+  /* Font Family */
+  --gv-font-family: 'PT Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Global Styles for Giảng Viên Dashboard */
+.giangvien-dashboard,
+.giangvien-dashboard * {
+  font-family: var(--gv-font-family) !important;
+}
+
+.giangvien-dashboard {
+  background-color: var(--gv-bg-main);
+  color: var(--gv-text-primary);
+}
+
+/* Buttons */
+.giangvien-dashboard .btn-primary,
+.giangvien-dashboard button.bg-blue-600,
+.giangvien-dashboard button.bg-indigo-600 {
+  background-color: var(--gv-primary) !important;
+  border-color: var(--gv-primary) !important;
+}
+
+.giangvien-dashboard .btn-primary:hover,
+.giangvien-dashboard button.bg-blue-600:hover,
+.giangvien-dashboard button.bg-indigo-600:hover {
+  background-color: var(--gv-primary-dark) !important;
+  border-color: var(--gv-primary-dark) !important;
+}
+
+.giangvien-dashboard .btn-accent,
+.giangvien-dashboard button.bg-orange-500,
+.giangvien-dashboard button.bg-amber-500 {
+  background-color: var(--gv-accent) !important;
+  border-color: var(--gv-accent) !important;
+  color: var(--gv-text-white) !important;
+}
+
+.giangvien-dashboard .btn-accent:hover {
+  background-color: var(--gv-accent-dark) !important;
+}
+
+/* Cards */
+.giangvien-dashboard .card,
+.giangvien-dashboard .bg-white {
+  background-color: var(--gv-bg-card) !important;
+  border: 1px solid var(--gv-border);
+  box-shadow: var(--gv-shadow);
+  border-radius: 8px;
+}
+
+.giangvien-dashboard .card:hover {
+  box-shadow: var(--gv-shadow-hover);
+}
+
+/* Headers & Sidebar */
+.giangvien-dashboard header,
+.giangvien-dashboard .header {
+  background-color: var(--gv-primary) !important;
+  color: var(--gv-text-white) !important;
+}
+
+.giangvien-dashboard .sidebar {
+  background-color: var(--gv-bg-white);
+  border-right: 1px solid var(--gv-border);
+}
+
+.giangvien-dashboard .sidebar-item.active,
+.giangvien-dashboard .sidebar-item:hover {
+  background-color: var(--gv-primary-light);
+  color: var(--gv-primary-dark);
+}
+
+/* Links */
+.giangvien-dashboard a {
+  color: var(--gv-primary);
+}
+
+.giangvien-dashboard a:hover {
+  color: var(--gv-primary-dark);
+}
+
+/* Accent Elements */
+.giangvien-dashboard .accent-border {
+  border-left: 4px solid var(--gv-accent);
+}
+
+.giangvien-dashboard .accent-bg {
+  background-color: var(--gv-accent);
+  color: var(--gv-text-white);
+}
+
+.giangvien-dashboard .accent-text {
+  color: var(--gv-accent);
+}
+
+/* Status Badges */
+.giangvien-dashboard .badge-success {
+  background-color: var(--gv-success);
+  color: white;
+}
+
+.giangvien-dashboard .badge-warning {
+  background-color: var(--gv-warning);
+  color: white;
+}
+
+.giangvien-dashboard .badge-error {
+  background-color: var(--gv-error);
+  color: white;
+}
+
+.giangvien-dashboard .badge-info {
+  background-color: var(--gv-info);
+  color: white;
+}
+
+/* Typography */
+.giangvien-dashboard h1,
+.giangvien-dashboard h2,
+.giangvien-dashboard h3,
+.giangvien-dashboard h4,
+.giangvien-dashboard h5,
+.giangvien-dashboard h6 {
+  font-family: var(--gv-font-family);
+  font-weight: 700;
+  color: var(--gv-text-primary);
+}
+
+.giangvien-dashboard p,
+.giangvien-dashboard span,
+.giangvien-dashboard div {
+  font-family: var(--gv-font-family);
+  font-weight: 400;
+}
+
+/* Tables */
+.giangvien-dashboard table thead {
+  background-color: var(--gv-primary);
+  color: var(--gv-text-white);
+}
+
+.giangvien-dashboard table tbody tr:hover {
+  background-color: var(--gv-bg-main);
+}
+
+/* Forms */
+.giangvien-dashboard input,
+.giangvien-dashboard select,
+.giangvien-dashboard textarea {
+  border: 1px solid var(--gv-border);
+  border-radius: 4px;
+  font-family: var(--gv-font-family);
+}
+
+.giangvien-dashboard input:focus,
+.giangvien-dashboard select:focus,
+.giangvien-dashboard textarea:focus {
+  border-color: var(--gv-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.1);
+}
+
+/* Charts & Metrics */
+.giangvien-dashboard .metric-card {
+  background: linear-gradient(135deg, var(--gv-primary) 0%, var(--gv-primary-dark) 100%);
+  color: var(--gv-text-white);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.giangvien-dashboard .metric-accent {
+  background: linear-gradient(135deg, var(--gv-accent) 0%, var(--gv-accent-dark) 100%);
+  color: var(--gv-text-white);
+}
+
+/* Notifications */
+.giangvien-dashboard .notification {
+  border-left: 4px solid var(--gv-accent);
+  background-color: var(--gv-bg-white);
+}
+
+/* Loading & Disabled States */
+.giangvien-dashboard .disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.giangvien-dashboard .loading {
+  color: var(--gv-primary);
+}

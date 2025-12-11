@@ -108,19 +108,11 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
     !isResetPasswordRoute && !!sessionStorage.getItem('user')
   );
-  
-  console.log('🔍 App render check:', {
-    currentPath,
-    isResetPasswordRoute,
-    hasUser: !!sessionStorage.getItem('user'),
-    isAuthenticated
-  });
 
   // Sync selectedDashboard with sessionStorage when it changes
   useEffect(() => {
     const dashboardType = sessionStorage.getItem('dashboardType');
     if (dashboardType && dashboardType !== selectedDashboard) {
-      console.log('🔄 Syncing dashboardType from sessionStorage:', dashboardType);
       setSelectedDashboard(dashboardType);
     }
   }, []);
@@ -138,7 +130,6 @@ function App() {
         const tempAccessToken = sessionStorage.getItem('temp_access_token');
         
         if (hasUser && !currentAccessToken && tempAccessToken) {
-          console.log('🔄 User found with temp access token, restoring to memory...');
           const { setAccessToken } = await import('./services/api.js');
           setAccessToken(tempAccessToken);
         }
@@ -170,7 +161,6 @@ function App() {
 
   // If no dashboard selected, something went wrong - force reload to get fresh data
   if (!selectedDashboard) {
-    console.error('⚠️ No dashboard selected! This should not happen.');
     setTimeout(() => {
       window.location.reload();
     }, 1000);

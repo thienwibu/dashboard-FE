@@ -161,11 +161,7 @@ async function refreshAccessToken() {
   if (!currentAccessToken) {
     currentAccessToken = sessionStorage.getItem('temp_access_token');
     if (currentAccessToken) {
-      console.log('🔄 Using temp access token from sessionStorage for refresh');
-      console.log('🔍 temp_access_token exists in sessionStorage:', currentAccessToken.substring(0, 20) + '...');
       setAccessToken(currentAccessToken); // Restore to memory
-    } else {
-      console.log('❌ temp_access_token NOT found in sessionStorage');
     }
   }
   
@@ -216,9 +212,7 @@ async function refreshAccessToken() {
   setAccessToken(newAccess);
   // Also update temp_access_token in sessionStorage with the new token
   // This ensures if page reloads, we still have a token to refresh
-  console.log('💾 Saving new access token to memory and sessionStorage (temp_access_token)');
   sessionStorage.setItem('temp_access_token', newAccess);
-  console.log('✅ New access token saved after refresh');
   return data;
 }
 
@@ -240,11 +234,6 @@ async function apiCall(endpoint, options = {}) {
     // Extract base path from endpoint (remove query string)
     const basePath = endpoint.split('?')[0];
     const requiresAuth = !skipAuthEndpoints.includes(basePath);
-    
-    // Log for debugging
-    if (basePath === '/auth/verify-reset-token') {
-      console.log('🔍 Public endpoint detected, skipping auth:', basePath);
-    }
 
     let currentAccessToken = getAccessToken();
     
@@ -252,7 +241,6 @@ async function apiCall(endpoint, options = {}) {
     if (!currentAccessToken) {
       const tempAccessToken = sessionStorage.getItem('temp_access_token');
       if (tempAccessToken) {
-        console.log('🔄 Restoring access token from sessionStorage to memory');
         setAccessToken(tempAccessToken);
         currentAccessToken = tempAccessToken;
       }
@@ -277,24 +265,10 @@ async function apiCall(endpoint, options = {}) {
       }
     }
     
-    // Log token status for debugging
-    if (requiresAuth && endpoint !== '/auth/refresh-token') {
-      console.log('🔍 Token check for', endpoint, {
-        tokenExists,
-        tokenValid,
-        tokenExpiryInfo
-      });
-    }
-    
     // Only refresh if token is missing OR expired
     // Note: refresh-token endpoint itself requires access token (even if expired), so skip auto-refresh for it
     // Also skip refresh for public endpoints that don't need authentication
     if (requiresAuth && endpoint !== '/auth/refresh-token' && (!tokenExists || !tokenValid)) {
-      if (!tokenExists) {
-        console.log('⚠️ Access token missing, attempting refresh...');
-      } else if (!tokenValid) {
-        console.log('⚠️ Access token expired, attempting refresh...', tokenExpiryInfo);
-      }
       try {
         const refreshResponse = await refreshAccessToken();
         currentAccessToken = refreshResponse.data.access_token;
@@ -330,23 +304,11 @@ async function apiCall(endpoint, options = {}) {
       headers['Authorization'] = `Bearer ${currentAccessToken}`;
     }
 
-    // Log request for verify-reset-token debugging
-    if (endpoint.includes('/auth/verify-reset-token')) {
-      console.log('🌐 Making API call to:', `${API_BASE_URL}${endpoint}`);
-      console.log('📤 Request headers:', headers);
-    }
-
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       headers,
       credentials: options.credentials || 'include',
       ...options,
     });
-
-    // Log response status for verify-reset-token debugging
-    if (endpoint.includes('/auth/verify-reset-token')) {
-      console.log('📥 Response status:', response.status, response.statusText);
-      console.log('📥 Response headers:', Object.fromEntries(response.headers.entries()));
-    }
 
     // Check if response is JSON before parsing
     const contentType = response.headers.get('content-type');
@@ -371,11 +333,6 @@ async function apiCall(endpoint, options = {}) {
         text: text.substring(0, 200)
       });
       throw new Error(`Server returned non-JSON response: ${response.status} ${response.statusText}`);
-    }
-    
-    // Log response for debugging (only for verify-reset-token)
-    if (endpoint.includes('/auth/verify-reset-token')) {
-      console.log('✅ Verify reset token response:', data);
     }
 
     // If still 401 after refresh, try once more with the new token
@@ -416,31 +373,11 @@ async function apiCall(endpoint, options = {}) {
     }
 
     if (!response.ok) {
-      // Log error details for debugging
-      console.error(`API Error for ${endpoint}:`, {
-        status: response.status,
-        statusText: response.statusText,
-        data
-      });
       throw new Error(data.message || data.error || `Server error: ${response.status} ${response.statusText}`);
-    }
-
-    // Log successful response for verify-reset-token
-    if (endpoint.includes('/auth/verify-reset-token')) {
-      console.log('✅ Verify reset token response:', data);
-    }
-    
-    // Log successful response for login
-    if (endpoint.includes('/auth/login')) {
-      console.log('✅ Login API response data:', data);
     }
 
     return data;
   } catch (error) {
-    // Log error for debugging
-    if (endpoint.includes('/auth/verify-reset-token')) {
-      console.error('❌ Error in verify-reset-token:', error);
-    }
     throw error;
   }
 }
@@ -459,13 +396,10 @@ export const authAPI = {
 
   // Login
   login: async (credentials) => {
-    console.log('🔐 Calling login API...');
-    const response = await apiCall('/auth/login', {
+    return apiCall('/auth/login', {
       method: 'POST',
       body: JSON.stringify(credentials),
     });
-    console.log('✅ Login API response:', response);
-    return response;
   },
 
   // Get current user

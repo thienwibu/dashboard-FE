@@ -113,13 +113,6 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
     !isResetPasswordRoute && !!sessionStorage.getItem('user')
   );
-  
-  console.log('🔍 App render check:', {
-    currentPath,
-    isResetPasswordRoute,
-    hasUser: !!sessionStorage.getItem('user'),
-    isAuthenticated
-  });
 
   // Sync selectedDashboard with sessionStorage when it changes
   useEffect(() => {

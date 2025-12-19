@@ -7,6 +7,7 @@ import NotificationPanel from './components/NotificationPanel';
 import PerformanceChart from './components/PerformanceChart';
 import GradeDistribution from './components/GradeDistribution';
 import { mockDashboardData, mockStudentTrackingData } from '../../data/mockData';
+import dataService from '../../services/dataService';
 
 const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState(null);
@@ -19,22 +20,50 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
-    // Simulate API call
-    const loadDashboardData = async () => {
-      try {
-        setLoading(true);
-        // Simulate network delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        setDashboardData(mockDashboardData);
-      } catch (error) {
-        console.error('Error loading dashboard data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     loadDashboardData();
+    
+    // Lắng nghe sự kiện refresh
+    const handleRefresh = () => loadDashboardData();
+    window.addEventListener('dataRefresh', handleRefresh);
+    
+    return () => window.removeEventListener('dataRefresh', handleRefresh);
   }, [filters]);
+
+  const loadDashboardData = async () => {
+    try {
+      setLoading(true);
+      
+      // Lấy dữ liệu thực tế từ dataService
+      const modules = dataService.getModules();
+      const stats = dataService.getOverviewStats();
+      const students = dataService.getStudents();
+      
+      // Cập nhật mockDashboardData với số liệu thực tế
+      const updatedData = {
+        ...mockDashboardData,
+        courseMonitoring: modules.slice(0, 4).map(m => ({
+          name: m.title,
+          enrolledStudents: m.students,
+          completionRate: m.progress,
+          averageScore: m.avgScore || 7.5,
+          duration: m.duration
+        })),
+        totalStudents: stats.totalStudents,
+        totalCourses: stats.totalModules,
+        averageProgress: stats.averageProgress
+      };
+      
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setDashboardData(updatedData);
+      
+      console.log('📊 Dashboard loaded with real data:', stats);
+    } catch (error) {
+      console.error('Error loading dashboard data:', error);
+      setDashboardData(mockDashboardData);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleFilterChange = (filterType, value) => {
     setFilters(prev => ({

@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TrendingUp, TrendingDown, Users, BookOpen, Award, AlertTriangle, X, ChevronRight } from 'lucide-react';
 import { mockStudentTrackingData } from '../../../data/mockData';
+import dataService from '../../../services/dataService';
 
 const KPIMetrics = ({ data }) => {
   const [selectedMetric, setSelectedMetric] = useState(null);

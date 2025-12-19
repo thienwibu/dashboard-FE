@@ -9,6 +9,7 @@ import ExportDropdown from '../../components/ExportDropdown';
 import SmartSearchInput from '../../components/SmartSearchInput';
 import { mockClassData, mockStudentTrackingData } from '../../data/mockData';
 import localStorageService from '../../services/localStorageService';
+import dataService from '../../services/dataService';
 
 const ClassManagement = () => {
   const [classes, setClasses] = useState([]);
@@ -32,6 +33,10 @@ const ClassManagement = () => {
     });
     
     loadClassData();
+    
+    // Lắng nghe sự kiện refresh từ dataService
+    const handleRefresh = () => loadClassData();
+    window.addEventListener('dataRefresh', handleRefresh);
     
     // Reload khi quay lại trang (visibility change)
     const handleVisibilityChange = () => {

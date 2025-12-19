@@ -22,7 +22,7 @@ import AssignmentDetail from './giangvien/pages/AssignmentManagement/AssignmentD
 import AssignmentCreate from './giangvien/pages/AssignmentManagement/AssignmentCreate';
 import AssignmentEdit from './giangvien/pages/AssignmentManagement/AssignmentEdit';
 import AutoGradingPage from './giangvien/pages/AssignmentManagement/AutoGradingPage';
-import LearningPath from './giangvien/pages/LearningPath/LearningPath';
+import LearningPath from './giangvien/pages/LearningPath/LearningPathSimple';
 import ModuleDetail from './giangvien/pages/LearningPath/ModuleDetail';
 import WeekDetail from './giangvien/pages/LearningPath/WeekDetail';
 import Reports from './giangvien/pages/Reports/Reports';

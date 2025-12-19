@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { mockDashboardData } from '../../data/mockData';
 import AddWeekContentModal from './components/AddWeekContentModal';
+import dataService from '../../services/dataService';
 
 const ModuleDetail = () => {
   const { id } = useParams();
@@ -17,6 +18,12 @@ const ModuleDetail = () => {
 
   useEffect(() => {
     loadModule();
+    
+    // Lắng nghe sự kiện refresh
+    const handleRefresh = () => loadModule();
+    window.addEventListener('dataRefresh', handleRefresh);
+    
+    return () => window.removeEventListener('dataRefresh', handleRefresh);
   }, [id]);
 
   const loadModule = () => {
@@ -24,6 +31,13 @@ const ModuleDetail = () => {
       // Load từ localStorage trước
       const storedModules = JSON.parse(localStorage.getItem('giangvien_modules') || '[]');
       let foundModule = storedModules.find(m => m.id === parseInt(id));
+      
+      // Cập nhật số sinh viên thực tế
+      if (foundModule) {
+        const totalStudents = dataService.getTotalStudents();
+        foundModule.enrolledStudents = totalStudents;
+        foundModule.students = totalStudents;
+      }
 
       // Nếu không tìm thấy, load từ mockData
       if (!foundModule) {
@@ -32,12 +46,13 @@ const ModuleDetail = () => {
         
         if (course) {
           // Convert course từ mockData sang format module
+          const totalStudents = dataService.getTotalStudents();
           foundModule = {
             id: parseInt(id),
             name: course.name,
             description: `Khóa học ${course.name}`,
             duration: course.duration,
-            enrolledStudents: course.enrolledStudents,
+            enrolledStudents: totalStudents, // Số sinh viên thực tế
             completionRate: course.completionRate,
             averageScore: course.averageScore,
             status: course.completionRate === 100 ? 'completed' : course.completionRate > 0 ? 'in-progress' : 'pending',
@@ -281,7 +296,7 @@ const ModuleDetail = () => {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="card p-4 bg-gradient-to-br from-blue-50 to-indigo-50">
           <div className="flex items-center justify-between">
             <div>
@@ -309,16 +324,6 @@ const ModuleDetail = () => {
               <p className="text-2xl font-bold text-purple-600">{module.completionRate || 0}%</p>
             </div>
             <CheckCircle className="h-8 w-8 text-purple-500 opacity-50" />
-          </div>
-        </div>
-
-        <div className="card p-4 bg-gradient-to-br from-orange-50 to-red-50">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Điểm TB</p>
-              <p className="text-2xl font-bold text-orange-600">{module.averageScore || 0}</p>
-            </div>
-            <BookOpen className="h-8 w-8 text-orange-500 opacity-50" />
           </div>
         </div>
       </div>

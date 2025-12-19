@@ -105,7 +105,7 @@ const AssignmentDetailHeader = ({ assignment }) => {
             </div>
             <div className="flex items-center space-x-2">
               <MapPin className="h-4 w-4" />
-              <span>{assignment.course} - {assignment.className}</span>
+              <span>{assignment.course}</span>
             </div>
           </div>
         </div>

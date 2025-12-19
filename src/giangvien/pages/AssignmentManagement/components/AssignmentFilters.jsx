@@ -26,13 +26,6 @@ const AssignmentFilters = ({ filters, onFilterChange }) => {
     { value: 'data-struct-algo', label: 'Cấu trúc dữ liệu và giải thuật' }
   ];
 
-  const classOptions = [
-    { value: 'all', label: 'Tất cả lớp học' },
-    { value: '22CT111', label: '22CT111' },
-    { value: '22CT112', label: '22CT112' },
-    { value: '22CT113', label: '22CT113' }
-  ];
-
   const dateRangeOptions = [
     { value: 'all', label: 'Tất cả thời gian' },
     { value: 'today', label: 'Hôm nay' },
@@ -66,18 +59,6 @@ const AssignmentFilters = ({ filters, onFilterChange }) => {
         className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent"
       >
         {courseOptions.map(option => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-
-      <select
-        value={filters.class}
-        onChange={(e) => handleFilterChange('class', e.target.value)}
-        className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-      >
-        {classOptions.map(option => (
           <option key={option.value} value={option.value}>
             {option.label}
           </option>

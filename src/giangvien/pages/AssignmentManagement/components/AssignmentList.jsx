@@ -41,57 +41,53 @@ const AssignmentList = ({ assignments, onDelete }) => {
   };
 
   const getSubmissionDetails = (assignment) => {
-    // Danh sách đầy đủ 10 sinh viên thực tế
+    // Danh sách đầy đủ 10 sinh viên - TẤT CẢ đều làm chung 20 bài tập
     const ALL_STUDENTS = [
-      { id: 1, name: 'Nguyễn Văn Minh', studentId: '122000001', email: 'minh.nv@student.edu.vn' },
-      { id: 2, name: 'Trần Thị Hương', studentId: '122000002', email: 'huong.tt@student.edu.vn' },
-      { id: 3, name: 'Lê Hoàng Nam', studentId: '122000003', email: 'nam.lh@student.edu.vn' },
-      { id: 4, name: 'Phạm Thị Lan', studentId: '122000004', email: 'lan.pt@student.edu.vn' },
-      { id: 5, name: 'Vũ Đức Thành', studentId: '122000005', email: 'thanh.vd@student.edu.vn' },
-      { id: 6, name: 'Hoàng Thị Mai', studentId: '122000006', email: 'mai.ht@student.edu.vn' },
-      { id: 7, name: 'Đặng Văn Hùng', studentId: '122000007', email: 'hung.dv@student.edu.vn' },
-      { id: 8, name: 'Bùi Thị Ngọc', studentId: '122000008', email: 'ngoc.bt@student.edu.vn' },
-      { id: 9, name: 'Lý Minh Tuấn', studentId: '122000009', email: 'tuan.lm@student.edu.vn' },
-      { id: 10, name: 'Ngô Thị Thu', studentId: '122000010', email: 'thu.nt@student.edu.vn' }
+      { id: 1, name: 'Nguyễn Văn Minh', studentId: '122000001', email: 'minh.nv@student.edu.vn', avgScore: 8.5 },
+      { id: 2, name: 'Trần Thị Hương', studentId: '122000002', email: 'huong.tt@student.edu.vn', avgScore: 8.0 },
+      { id: 3, name: 'Lê Hoàng Nam', studentId: '122000003', email: 'nam.lh@student.edu.vn', avgScore: 6.0 },
+      { id: 4, name: 'Phạm Thị Lan', studentId: '122000004', email: 'lan.pt@student.edu.vn', avgScore: 7.5 },
+      { id: 5, name: 'Vũ Đức Thành', studentId: '122000005', email: 'thanh.vd@student.edu.vn', avgScore: 9.0 },
+      { id: 6, name: 'Hoàng Thị Mai', studentId: '122000006', email: 'mai.ht@student.edu.vn', avgScore: 9.2 },
+      { id: 7, name: 'Đặng Văn Hùng', studentId: '122000007', email: 'hung.dv@student.edu.vn', avgScore: 7.2 },
+      { id: 8, name: 'Bùi Thị Ngọc', studentId: '122000008', email: 'ngoc.bt@student.edu.vn', avgScore: 8.4 },
+      { id: 9, name: 'Lý Minh Tuấn', studentId: '122000009', email: 'tuan.lm@student.edu.vn', avgScore: 4.5 },
+      { id: 10, name: 'Ngô Thị Thu', studentId: '122000010', email: 'thu.nt@student.edu.vn', avgScore: 8.6 }
     ];
     
-    // Mapping sinh viên theo classId (lớp học)
-    const CLASS_STUDENTS = {
-      // Lớp 22CT111 - 4 sinh viên (ID: 1, 4, 7, 10)
-      1: [1, 4, 7, 10],  // Nhập môn lập trình
-      2: [1, 4, 7, 10],  // Kĩ thuật lập trình
-      3: [1, 4, 7, 10],  // Lập trình hướng đối tượng
-      4: [1, 4, 7, 10],  // Cấu trúc dữ liệu và giải thuật
-      
-      // Lớp 22CT112 - 3 sinh viên (ID: 2, 5, 8)
-      5: [2, 5, 8],
-      6: [2, 5, 8],
-      7: [2, 5, 8],
-      8: [2, 5, 8],
-      
-      // Lớp 22CT113 - 3 sinh viên (ID: 3, 6, 9)
-      9: [3, 6, 9],
-      10: [3, 6, 9],
-      11: [3, 6, 9],
-      12: [3, 6, 9]
-    };
-    
-    // Lấy đúng sinh viên theo classId
-    const studentIds = CLASS_STUDENTS[assignment.classId] || [];
-    const studentsInClass = ALL_STUDENTS.filter(s => studentIds.includes(s.id));
-    
+    // Tất cả 10 sinh viên đều làm chung 20 bài tập
     const submitted = [];
     const notSubmitted = [];
     const lateSubmitted = [];
     
-    // Phân loại sinh viên
-    studentsInClass.forEach((student, index) => {
-      if (index < assignment.submittedCount - assignment.lateSubmissions) {
+    // Sắp xếp sinh viên theo điểm trung bình (cao -> thấp) để phân loại hợp lý
+    const sortedStudents = [...ALL_STUDENTS].sort((a, b) => b.avgScore - a.avgScore);
+    
+    // Phân loại sinh viên dựa trên submittedCount và lateSubmissions của bài tập
+    const onTimeCount = assignment.submittedCount - assignment.lateSubmissions;
+    const lateCount = assignment.lateSubmissions;
+    const notSubmittedCount = assignment.totalStudents - assignment.submittedCount;
+    
+    sortedStudents.forEach((student, index) => {
+      // Tạo điểm ngẫu nhiên dựa trên điểm trung bình của sinh viên
+      const baseScore = student.avgScore;
+      const randomVariation = (Math.random() - 0.5) * 1.5; // ±0.75
+      const score = Math.max(0, Math.min(10, Math.round((baseScore + randomVariation) * 10) / 10));
+      
+      if (index < onTimeCount) {
         // Đã nộp đúng hạn
-        submitted.push({ ...student, submittedAt: '20/11/2024 14:30', score: 8.5 });
-      } else if (index < assignment.submittedCount) {
+        submitted.push({ 
+          ...student, 
+          submittedAt: formatDate(assignment.dueDate).replace(/\//g, '/') + ' 14:30', 
+          score: score 
+        });
+      } else if (index < onTimeCount + lateCount) {
         // Nộp muộn
-        lateSubmitted.push({ ...student, submittedAt: '23/11/2024 16:45', score: 7.0 });
+        lateSubmitted.push({ 
+          ...student, 
+          submittedAt: formatDate(assignment.dueDate).replace(/\//g, '/') + ' +2 ngày', 
+          score: Math.max(0, score - 1) // Trừ điểm nộp muộn
+        });
       } else {
         // Chưa nộp
         notSubmitted.push(student);
@@ -146,7 +142,7 @@ const AssignmentList = ({ assignments, onDelete }) => {
                     <span>{assignment.submittedCount}/{assignment.totalStudents} nộp bài</span>
                   </div>
                   <div className="text-primary-600 font-medium">
-                    {assignment.course} - {assignment.className}
+                    {assignment.course}
                   </div>
                 </div>
               </div>
@@ -267,7 +263,7 @@ const AssignmentList = ({ assignments, onDelete }) => {
               <div>
                 <h3 className="text-xl font-bold text-gray-700">{selectedAssignment.title}</h3>
                 <p className="text-sm text-gray-600 mt-1">
-                  {selectedAssignment.course} - {selectedAssignment.className}
+                  {selectedAssignment.course}
                 </p>
               </div>
               <button

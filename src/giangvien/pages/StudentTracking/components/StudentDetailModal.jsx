@@ -27,6 +27,7 @@ const StudentDetailModal = ({ student, isOpen, onClose }) => {
   const completedAssignments = assignmentStats?.submitted || student.completedAssignments || 0;
 
   // Generate full assignment list based on courses
+  // Mỗi môn có 5 bài tập, tổng cộng 20 bài tập (4 môn × 5 bài)
   const generateFullAssignmentList = () => {
     const allAssignments = [];
     
@@ -37,7 +38,7 @@ const StudentDetailModal = ({ student, isOpen, onClose }) => {
     });
     
     student.courses?.forEach((course, courseIndex) => {
-      const totalAssignmentsPerCourse = 10; // Mỗi môn 10 bài
+      const totalAssignmentsPerCourse = 5; // Mỗi môn 5 bài tập
       const completedPerCourse = Math.round(totalAssignmentsPerCourse * (course.progress / 100));
       const lateCount = Math.max(0, Math.round(completedPerCourse * 0.1)); // 10% nộp muộn
       
@@ -900,7 +901,7 @@ const StudentDetailModal = ({ student, isOpen, onClose }) => {
                 <div className="space-y-3">
                   <h4 className="font-semibold text-gray-700">Bài tập chưa nộp theo môn</h4>
                   {student.courses?.map((course, index) => {
-                    const totalAssignmentsPerCourse = 10; // Mỗi môn 10 bài
+                    const totalAssignmentsPerCourse = 5; // Mỗi môn 5 bài tập
                     const courseAssignments = fullAssignmentList.filter(a => a.courseName === course.name);
                     const completedPerCourse = courseAssignments.filter(a => a.status === 'completed' || a.status === 'late').length;
                     const missingPerCourse = courseAssignments.filter(a => a.status === 'missing').length;

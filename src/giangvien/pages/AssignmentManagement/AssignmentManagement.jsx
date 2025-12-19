@@ -14,7 +14,6 @@ const AssignmentManagement = () => {
   const [filters, setFilters] = useState({
     status: 'all',
     course: 'all',
-    class: 'all',
     dateRange: 'all'
   });
 
@@ -61,9 +60,8 @@ const AssignmentManagement = () => {
     
     const matchesStatus = filters.status === 'all' || assignment.status === filters.status;
     const matchesCourse = filters.course === 'all' || assignment.courseId === filters.course;
-    const matchesClass = filters.class === 'all' || assignment.classId === filters.class;
     
-    return matchesSearch && matchesStatus && matchesCourse && matchesClass;
+    return matchesSearch && matchesStatus && matchesCourse;
   });
 
   if (loading) {

@@ -1,10 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Users, TrendingUp, MoreVertical, UserPlus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AddNewStudentModal from './AddNewStudentModal';
+import localStorageService from '../../../services/localStorageService';
+import { mockClassData } from '../../../data/mockData';
 
 const ClassCard = ({ classData, onAddStudent }) => {
   const [showAddModal, setShowAddModal] = useState(false);
+  const [activeAssignmentsCount, setActiveAssignmentsCount] = useState(0);
+
+  // Tính số bài tập đang mở từ classDetails thực tế
+  useEffect(() => {
+    const storedClassDetails = localStorageService.getClassDetails();
+    const details = storedClassDetails?.[classData.id] || mockClassData.classDetails?.[classData.id];
+    
+    if (details?.assignments) {
+      const activeCount = details.assignments.filter(a => a.status === 'active').length;
+      setActiveAssignmentsCount(activeCount);
+    } else {
+      setActiveAssignmentsCount(classData.activeAssignments || 0);
+    }
+  }, [classData.id, classData.activeAssignments]);
 
   const handleAddStudent = (studentData) => {
     // Gọi callback từ parent để cập nhật state
@@ -102,7 +118,7 @@ const ClassCard = ({ classData, onAddStudent }) => {
 
         <div className="pt-3 border-t border-gray-100 space-y-3">
           <div className="flex items-center justify-between text-sm text-gray-600">
-            <span className="font-medium">{classData.activeAssignments}</span> bài tập đang mở
+            <span className="font-medium">{activeAssignmentsCount}</span> bài tập đang mở
           </div>
           
           <div className="flex items-center space-x-2">

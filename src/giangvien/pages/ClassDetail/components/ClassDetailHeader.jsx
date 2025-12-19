@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Users, Clock, MapPin, Calendar, TrendingUp, AlertTriangle } from 'lucide-react';
 
 const ClassDetailHeader = ({ classData }) => {
+  // Tính số bài tập đang mở từ assignments thực tế
+  const activeAssignmentsCount = useMemo(() => {
+    if (classData.assignments && Array.isArray(classData.assignments)) {
+      return classData.assignments.filter(a => a.status === 'active').length;
+    }
+    return classData.activeAssignments || 0;
+  }, [classData.assignments, classData.activeAssignments]);
   const getStatusBadge = (status) => {
     const statusConfig = {
       active: { class: 'status-badge status-active', text: 'Đang diễn ra' },
@@ -69,7 +76,7 @@ const ClassDetailHeader = ({ classData }) => {
             <div className="flex items-center justify-center mb-2">
               <AlertTriangle className="h-5 w-5 text-warning-600" />
             </div>
-            <p className="text-2xl font-bold text-warning-600">{classData.activeAssignments || 0}</p>
+            <p className="text-2xl font-bold text-warning-600">{activeAssignmentsCount}</p>
             <p className="text-xs text-gray-600">Bài tập mở</p>
           </div>
         </div>

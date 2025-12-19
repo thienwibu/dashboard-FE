@@ -27,6 +27,10 @@ const StudentTracking = () => {
   useEffect(() => {
     loadStudentData();
     
+    // Lắng nghe sự kiện refresh từ dataService
+    const handleRefresh = () => loadStudentData();
+    window.addEventListener('dataRefresh', handleRefresh);
+    
     // Reload khi quay lại trang (visibility change)
     const handleVisibilityChange = () => {
       if (!document.hidden) {
@@ -37,6 +41,7 @@ const StudentTracking = () => {
     document.addEventListener('visibilitychange', handleVisibilityChange);
     
     return () => {
+      window.removeEventListener('dataRefresh', handleRefresh);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [filters]);
@@ -141,6 +146,7 @@ const StudentTracking = () => {
         <StudentGrid
           students={filteredStudents}
           onStudentSelect={handleStudentSelect}
+          onStudentDeleted={loadStudentData}
           loading={loading}
         />
       )}
@@ -149,6 +155,7 @@ const StudentTracking = () => {
         <StudentList
           students={filteredStudents}
           onStudentSelect={handleStudentSelect}
+          onStudentDeleted={loadStudentData}
           loading={loading}
         />
       )}

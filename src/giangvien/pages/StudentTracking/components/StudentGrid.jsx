@@ -1,7 +1,22 @@
 import React from 'react';
-import { Mail, Phone, TrendingUp, TrendingDown, Clock, Award, AlertTriangle } from 'lucide-react';
+import { Mail, Phone, TrendingUp, TrendingDown, Clock, Award, AlertTriangle, Trash2 } from 'lucide-react';
+import dataService from '../../../services/dataService';
 
-const StudentGrid = ({ students, onStudentSelect, loading }) => {
+const StudentGrid = ({ students, onStudentSelect, loading, onStudentDeleted }) => {
+  
+  const handleDeleteStudent = (e, student) => {
+    e.stopPropagation(); // Ngăn không mở modal
+    
+    if (window.confirm(`Bạn có chắc chắn muốn xóa sinh viên "${student.name}"?\n\nLưu ý: Hành động này không thể hoàn tác!`)) {
+      if (dataService.deleteStudent(student.id)) {
+        dataService.refresh();
+        if (onStudentDeleted) onStudentDeleted();
+        console.log('✅ Đã xóa sinh viên:', student.name);
+      } else {
+        alert('Có lỗi xảy ra khi xóa sinh viên. Vui lòng thử lại!');
+      }
+    }
+  };
   const getStatusBadge = (status) => {
     const statusConfig = {
       active: { class: 'status-badge status-active', text: 'Đang học' },
@@ -69,7 +84,7 @@ const StudentGrid = ({ students, onStudentSelect, loading }) => {
       {students.map((student) => (
         <div
           key={student.id}
-          className="card p-6 hover:shadow-medium transition-all duration-200 cursor-pointer"
+          className="card p-6 hover:shadow-medium transition-all duration-200 cursor-pointer group"
           onClick={() => onStudentSelect(student)}
         >
           <div className="flex items-start justify-between mb-4">
@@ -84,9 +99,18 @@ const StudentGrid = ({ students, onStudentSelect, loading }) => {
                 <p className="text-sm text-gray-600">{student.studentId}</p>
               </div>
             </div>
-            <span className={getStatusBadge(student.status).class}>
-              {getStatusBadge(student.status).text}
-            </span>
+            <div className="flex items-center space-x-2">
+              <span className={getStatusBadge(student.status).class}>
+                {getStatusBadge(student.status).text}
+              </span>
+              <button
+                onClick={(e) => handleDeleteStudent(e, student)}
+                className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                title="Xóa sinh viên"
+              >
+                <Trash2 className="h-4 w-4" />
+              </button>
+            </div>
           </div>
 
           <div className="space-y-3 mb-4">

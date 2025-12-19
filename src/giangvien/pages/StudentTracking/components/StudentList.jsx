@@ -1,7 +1,22 @@
 import React from 'react';
-import { Mail, Phone, TrendingUp, TrendingDown, Clock, Award, AlertTriangle, MoreVertical, Eye } from 'lucide-react';
+import { Mail, Phone, TrendingUp, TrendingDown, Clock, Award, AlertTriangle, MoreVertical, Eye, Trash2 } from 'lucide-react';
+import dataService from '../../../services/dataService';
 
-const StudentList = ({ students, onStudentSelect, loading }) => {
+const StudentList = ({ students, onStudentSelect, loading, onStudentDeleted }) => {
+  
+  const handleDeleteStudent = (e, student) => {
+    e.stopPropagation();
+    
+    if (window.confirm(`Bạn có chắc chắn muốn xóa sinh viên "${student.name}"?\n\nLưu ý: Hành động này không thể hoàn tác!`)) {
+      if (dataService.deleteStudent(student.id)) {
+        dataService.refresh();
+        if (onStudentDeleted) onStudentDeleted();
+        console.log('✅ Đã xóa sinh viên:', student.name);
+      } else {
+        alert('Có lỗi xảy ra khi xóa sinh viên. Vui lòng thử lại!');
+      }
+    }
+  };
   const getStatusBadge = (status) => {
     const statusConfig = {
       active: { class: 'status-badge status-active', text: 'Đang học' },
@@ -171,15 +186,25 @@ const StudentList = ({ students, onStudentSelect, loading }) => {
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <button 
-                    className="text-gray-400 hover:text-primary-600"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onStudentSelect(student);
-                    }}
-                  >
-                    <Eye className="h-5 w-5" />
-                  </button>
+                  <div className="flex items-center justify-end space-x-2">
+                    <button 
+                      className="text-gray-400 hover:text-primary-600 transition-colors"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onStudentSelect(student);
+                      }}
+                      title="Xem chi tiết"
+                    >
+                      <Eye className="h-5 w-5" />
+                    </button>
+                    <button 
+                      className="text-gray-400 hover:text-red-600 transition-colors"
+                      onClick={(e) => handleDeleteStudent(e, student)}
+                      title="Xóa sinh viên"
+                    >
+                      <Trash2 className="h-5 w-5" />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

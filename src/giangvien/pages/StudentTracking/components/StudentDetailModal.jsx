@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Mail, Phone, Calendar, Clock, Award, TrendingUp, TrendingDown, AlertTriangle, BookOpen, User, ChevronRight } from 'lucide-react';
+import dataService from '../../../services/dataService';
 
 const StudentDetailModal = ({ student, isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -8,8 +9,22 @@ const StudentDetailModal = ({ student, isOpen, onClose }) => {
   const [showHoursDetail, setShowHoursDetail] = useState(false);
   const [showAssignmentDetail, setShowAssignmentDetail] = useState(false);
   const [assignmentFilter, setAssignmentFilter] = useState('all'); // 'all', 'completed', 'missing', 'late'
+  const [assignmentStats, setAssignmentStats] = useState(null);
+
+  useEffect(() => {
+    if (student && isOpen) {
+      // Lấy thống kê bài tập thực tế từ dataService
+      const stats = dataService.getStudentAssignmentStats(student.id);
+      setAssignmentStats(stats);
+      console.log('📊 Assignment stats for', student.name, ':', stats);
+    }
+  }, [student, isOpen]);
 
   if (!isOpen || !student) return null;
+  
+  // Sử dụng stats từ dataService nếu có, fallback về mockData
+  const totalAssignments = assignmentStats?.total || student.totalAssignments || 20;
+  const completedAssignments = assignmentStats?.submitted || student.completedAssignments || 0;
 
   // Generate full assignment list based on courses
   const generateFullAssignmentList = () => {
@@ -262,7 +277,7 @@ const StudentDetailModal = ({ student, isOpen, onClose }) => {
                     className="bg-gray-50 p-4 rounded-lg text-center hover:bg-gray-100 transition-colors cursor-pointer group"
                   >
                     <div className="text-2xl font-bold text-gray-600">
-                      {student.completedAssignments}/{student.totalAssignments}
+                      {completedAssignments}/{totalAssignments}
                     </div>
                     <div className="text-sm text-gray-600">Bài tập</div>
                     <div className="text-xs text-gray-600 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -577,7 +592,7 @@ const StudentDetailModal = ({ student, isOpen, onClose }) => {
                       }}
                       className="bg-success-50 p-4 rounded-lg hover:bg-success-100 transition-colors cursor-pointer group"
                     >
-                      <div className="text-2xl font-bold text-success-600">{student.completedAssignments}</div>
+                      <div className="text-2xl font-bold text-success-600">{completedAssignments}</div>
                       <div className="text-sm text-gray-600">Đã hoàn thành</div>
                       <div className="text-xs text-success-600 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         Xem danh sách →
@@ -592,7 +607,7 @@ const StudentDetailModal = ({ student, isOpen, onClose }) => {
                       className="bg-danger-50 p-4 rounded-lg hover:bg-danger-100 transition-colors cursor-pointer group"
                     >
                       <div className="text-2xl font-bold text-danger-600">
-                        {student.totalAssignments - student.completedAssignments}
+                        {totalAssignments - completedAssignments}
                       </div>
                       <div className="text-sm text-gray-600">Chưa hoàn thành</div>
                       <div className="text-xs text-danger-600 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">

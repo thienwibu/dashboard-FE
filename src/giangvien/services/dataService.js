@@ -197,6 +197,77 @@ const dataService = {
   },
 
   /**
+   * Lấy danh sách bài tập
+   */
+  getAssignments: () => {
+    try {
+      const assignments = JSON.parse(localStorage.getItem('giangvien_assignments') || '[]');
+      return assignments;
+    } catch (error) {
+      console.error('❌ Lỗi khi lấy bài tập:', error);
+      return [];
+    }
+  },
+
+  /**
+   * Tính số bài tập của sinh viên
+   */
+  getStudentAssignmentStats: (studentId) => {
+    const assignments = dataService.getAssignments();
+    
+    let total = 0;
+    let submitted = 0;
+    let late = 0;
+    let notSubmitted = 0;
+    
+    assignments.forEach(assignment => {
+      // Kiểm tra xem sinh viên có trong lớp của bài tập không
+      const submission = assignment.submissions?.find(s => s.studentId === studentId);
+      
+      if (submission) {
+        total++;
+        if (submission.status === 'submitted' || submission.status === 'graded') {
+          submitted++;
+          if (submission.isLate) {
+            late++;
+          }
+        } else {
+          notSubmitted++;
+        }
+      }
+    });
+    
+    return {
+      total,
+      submitted,
+      late,
+      notSubmitted,
+      onTime: submitted - late
+    };
+  },
+
+  /**
+   * Xóa sinh viên
+   */
+  deleteStudent: (studentId) => {
+    try {
+      // Sử dụng localStorageService để xóa đúng key
+      const success = localStorageService.removeStudent(studentId);
+      
+      if (success) {
+        console.log('✅ Đã xóa sinh viên ID:', studentId);
+        // Trigger refresh để cập nhật UI
+        dataService.refresh();
+      }
+      
+      return success;
+    } catch (error) {
+      console.error('❌ Lỗi khi xóa sinh viên:', error);
+      return false;
+    }
+  },
+
+  /**
    * Refresh dữ liệu - gọi khi có thay đổi
    */
   refresh: () => {
